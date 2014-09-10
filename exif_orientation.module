@@ -31,20 +31,20 @@ function _exif_orientation_rotate($file) {
     }
     // Orientation numbers and corresponding degrees.
     // @note: Odd numbers are flipped images, would need different process.
-    $orientation_types = array(
-      8 => 90,
-      7 => -90,
-      6 => 270,
-      5 => -270,
-      4 => -180,
-      3 => 180,
-      2 => 0,
-      1 => 0,
-      // Just in case.
-      0 => 0,
-    );
-    // Get the origentation rotation degrees
-    $degrees = $orientation_types[$file_exif['Orientation']];
+    switch ($file_exif['Orientation']) {
+      case 3:
+          $degrees = 180;
+          break;
+      case 6:
+          $degrees = 90;
+          break;
+      case 8:
+          $degrees = 270;
+          break;
+      default:
+          $degrees = 0;
+    }
+
     if ($degrees > 0) {
       // Load the image object for manipulation
       $file_image = image_load(drupal_realpath($file->uri));
