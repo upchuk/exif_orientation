@@ -49,7 +49,7 @@ function _exif_orientation_rotate($file) {
       // Load the image object for manipulation
       $file_image = image_load(drupal_realpath($file->uri));
 
-      if (image_rotate($file_image, $degrees)) {
+      if (image_rotate($file_image, $degrees, 'FFFFFF')) {
         image_save($file_image);
       }
     }
