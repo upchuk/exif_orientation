@@ -71,10 +71,10 @@ function exif_orientation_file_presave($file) {
  */
 function _exif_orientation_rotate($file) {
   if (function_exists('exif_read_data') && $file->filemime == 'image/jpeg') {
-    $file_exif = exif_read_data(drupal_realpath($file->uri));
+    $file_exif = @exif_read_data(drupal_realpath($file->uri));
 
     // Ensure that the Orientation key|value exists, otherwise leave.
-    if (!isset($file_exif['Orientation'])) {
+    if (!is_array($file_exif) || !isset($file_exif['Orientation'])) {
       return;
     }
     // Orientation numbers and corresponding degrees.
