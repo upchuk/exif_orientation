@@ -1,7 +1,0 @@
-name = EXIF Orientation
-description = Rotates images per their EXIF Orientation
-core = 7.x
-
-files[] = tests/exif_orientation.test
-package = "Media"
-
