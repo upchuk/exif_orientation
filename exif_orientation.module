@@ -6,6 +6,8 @@
  */
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\file\FileInterface;
 
 /**
  * Implements hook_file_presave().
@@ -13,6 +15,36 @@ use Drupal\Core\Entity\EntityInterface;
 function exif_orientation_file_presave(EntityInterface $entity) {
   // Provide EXIF Orientation correction.
   _exif_orientation_rotate($entity);
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ *
+ * Add a custom validator before file_validate_image_resolution().
+ * file_validate_image_resolution resizes the image if it's too large losing the
+ * exif data in the process.
+ */
+function exif_orientation_field_widget_form_alter(&$element, FormStateInterface $form_state, $context) {
+  if(isset($element['#upload_validators']['file_validate_image_resolution'])){
+    $element['#upload_validators'] = ['exif_orientation_validate_image_rotation' => []] + $element['#upload_validators'];
+  }
+}
+
+/**
+ * Ensures that image orientation is according to exif data.
+ *
+ * @param \Drupal\file\FileInterface $file
+ *   A file entity. This function may rotate the file.
+ *
+ * @return array
+ *   An empty array.
+ *
+ * @see hook_file_validate()
+ */
+function exif_orientation_validate_image_rotation(FileInterface $file) {
+  _exif_orientation_rotate($file);
+  // This validator did not produce any errors.
+  return [];
 }
 
 /**
