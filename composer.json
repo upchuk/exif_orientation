@@ -1,0 +1,14 @@
+{
+  "name": "drupal/exif_orientation",
+  "description": "This module reads EXIF data to rotate images that have an Orientation key set.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "homepage": "https://drupal.org/project/exif_orientation",
+  "repositories": [
+    {
+      "type": "composer",
+      "url":  "https://packages.drupal.org/8"
+    }
+  ]
+}
